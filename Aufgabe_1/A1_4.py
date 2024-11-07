@@ -40,6 +40,7 @@ ax2.tick_params(axis="y", labelcolor="r")
 ax1.grid(True)
 fig.tight_layout()
 
+
 plt.show()                                       # Show the figure.
 plt.close(fig)
 

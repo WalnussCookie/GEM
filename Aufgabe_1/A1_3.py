@@ -82,10 +82,13 @@ if flag_go:
     # Plot 1 - gemessenes Signal
     axs[0].plot(t, u_value[0,:])
     axs[0].set(xlabel="Zeit t in s", ylabel="Spannung U in V")                         # Benennung der Achsen
-
+    
     # Plot 2 - ausgeschnittenes Signal
     axs[1].plot(t[p_ind:p_ind+960], u_value[0,p_ind:p_ind+960])
     axs[1].set(xlabel="Zeit t in s", ylabel="Spannung U in V")                         # Benennung der Achsen
+
+    axs[0].grid(True)
+    axs[1].grid(True)
 
     plt.show()                                                                                                   # Show the figure.
     plt.close(fig_sp)

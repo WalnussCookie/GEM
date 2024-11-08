@@ -23,7 +23,7 @@ def angle2voltage(angle):
 
 t = np.linspace(0,10, 100)                                              # Zeitvektor
 angle_t = 0.5*(np.tanh(t-5)+1)*35                                # Winkelfunktion
-print(angle2voltage(angle_t))
+#print(angle2voltage(angle_t))
 
 # Plot
 fig, ax1 = plt.subplots()

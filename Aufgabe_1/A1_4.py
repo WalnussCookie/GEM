@@ -21,6 +21,8 @@ def angle2voltage(angle):
     voltage = coefficient[0]*angle+coefficient[1]            # Umrechnung von Winkel zu Spannung
     return voltage
 
+print(angle2voltage(0))
+print(angle2voltage(35))
 t = np.linspace(0,10, 100)                                              # Zeitvektor
 angle_t = 0.5*(np.tanh(t-5)+1)*35                                # Winkelfunktion
 #print(angle2voltage(angle_t))

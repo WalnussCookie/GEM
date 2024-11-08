@@ -15,7 +15,7 @@ x = np.arange(1, 1001)                              # Erzeugen von Vektor x (Var
 #print("\n", x)
 
 # -2.-
-new_x = x[10:50]                                       # Ausschneiden der Elemente 10-50 aus x und Zuordnung dieser zu einem neuen Vektor
+new_x = x[9:50]                                       # Ausschneiden der Elemente 10-50 aus x und Zuordnung dieser zu einem neuen Vektor
 #print("\n", new_x)
 
 # -3.-

@@ -28,19 +28,24 @@ angle_t = 0.5*(np.tanh(t-5)+1)*35                                # Winkelfunktio
 #print(angle2voltage(angle_t))
 
 # Plot
-fig, ax1 = plt.subplots()
+fig, ax1 = plt.subplots(tight_layout=True)
 
+# Graph Winkel
 ax1.set_xlabel("Zeit in s")
 ax1.set_ylabel("Winkel in °", color="b")
-ax1.plot(t, angle_t)
+ax1.plot(t, angle_t, "b", label="Winkel")
 ax1.tick_params(axis="y", labelcolor="b")
+
+# Graph Spannung
 ax2 = ax1.twinx()
 ax2.set_ylabel("Spannung in V", color="r")
-ax2.plot(t, angle2voltage(angle_t), "r")
+ax2.plot(t, angle2voltage(angle_t), "r", label="Spannung")
 ax2.tick_params(axis="y", labelcolor="r")
 
 ax1.grid(True)
-fig.tight_layout()
+ax1.set(title="Winkel- und Spannungsverlauf über die Zeit")
+fig.legend(loc="upper left", bbox_to_anchor=(0.1, 0.85))
+#fig.tight_layout()
 
 plt.show()                                       # Show the figure.
 plt.close(fig)

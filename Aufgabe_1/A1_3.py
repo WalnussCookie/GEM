@@ -12,7 +12,7 @@ import mdt
 
 # globale Variablen
 current_dir = os.path.dirname(__file__)            # aktueller Pfad
-file_name = current_dir+"\\A1_3.npy"               # Pfad für die Datei mit den Messwerten
+file_name = current_dir+"\\A1_3.npy"             # Pfad für die Datei mit den Messwerten
 flag_go = False                                                 # Zustandsvariable für's Laden und arbeiten mit den Messwerten
 # Initialisierungswerte für Messkarte
 a=5
@@ -21,6 +21,7 @@ d=0.1
 c=[0]
 r=14
 oT="volt"
+mess_periode = int(sR/50)                                    # sR Hz/50Hz Messpunkte in einer Periode
 
 ############# Erzeugen der Messdaten #############
 def get_Data():
@@ -64,13 +65,17 @@ if flag_go:
     #print(indices)
 
     fig, ax = plt.subplots()                                                                                                            
-    ax.scatter(indices, u_value[0,:], label="Spannungsverlauf")                              # Spannungskurve plotten
+    ax.scatter(indices, u_value[0,:], label="Spannungsverlauf")                                # Spannungskurve plotten
     
-    p_ind = 860                                                                                                      # Index für ersten Nulldurchgang von u_value (markiert eventuell nicht den Nulldurchgang, für andere Messdaten)
-    ax.plot(p_ind,u_value[0,p_ind], "ro")                                                                 # Start: eine Periode
-    ax.plot(p_ind+960,u_value[0,p_ind+960], "ro")                                                # Ende: einer Periode (48kHz/50Hz=960 Messpunkte in einer Periode)
+    #p_ind = 860                                                                                                      # Index für ersten Nulldurchgang von u_value (markiert eventuell nicht den Nulldurchgang, für andere Messdaten)
+    p_ind = int(np.argmin(abs(u_value)))                                                                 # Automatisch Index für Nulldurchgang von u_value bestimmen
+    if u_value[0,p_ind+1]<u_value[0,p_ind]:                                                             # Spannungswerte der ausgeschnittene Periode sollen zuerst ins Positive, danns ins Negative gehen
+        p_ind = int(p_ind + mess_periode/2)
 
-    plt.show()                                                                                                         # Show the figure.
+    ax.plot(p_ind,u_value[0,p_ind], "ro")                                                                 # Start: eine Periode
+    ax.plot(p_ind+mess_periode,u_value[0,p_ind+mess_periode], "ro")                # Ende: einer Periode
+
+    #plt.show()                                                                                                         # Show the figure.
     plt.close(fig)
 
     t = np.arange(0,d,1/sR)                                                                                  # Zeitvektor
@@ -80,15 +85,16 @@ if flag_go:
     fig_sp, axs = plt.subplots(2, 1, figsize=(8, 10), tight_layout=True)                 # Erzeugen einer Figur mit zwei Subplots
 
     # Plot 1 - gemessenes Signal
-    axs[0].plot(t, u_value[0,:])
-    axs[0].set(xlabel="Zeit t in s", ylabel="Spannung U in V")                         # Benennung der Achsen
+    axs[0].scatter(t, u_value[0,:])
+    axs[0].set(title="Gemessenes Signal", xlabel="Zeit t in s", ylabel="Spannung U in V")                         # Benennung der Achsen
     
     # Plot 2 - ausgeschnittenes Signal
-    axs[1].plot(t[p_ind:p_ind+960], u_value[0,p_ind:p_ind+960])
-    axs[1].set(xlabel="Zeit t in s", ylabel="Spannung U in V")                         # Benennung der Achsen
+    axs[1].scatter(t[p_ind:p_ind+mess_periode], u_value[0,p_ind:p_ind+mess_periode])
+    axs[1].set(title="Ausgeschnittenes Signal", xlabel="Zeit t in s", ylabel="Spannung U in V")                # Benennung der Achsen
 
+    # Grid der Plots setzen
     axs[0].grid(True)
     axs[1].grid(True)
 
-    plt.show()                                                                                                   # Show the figure.
+    plt.show()                                                                                                                                              # Show the figure.
     plt.close(fig_sp)

@@ -14,9 +14,13 @@ s_real = np.array([54.87, 51.31, 43.96, 36.86, 26.11])
 p_real = np.array([52.98, 45.74, 30.51, 19.31, 7.44 ])
 q_real = np.array([14.29, 23.25, 31.65, 31.39, 25.03])
 
-def Time2Rad(dt):
-    theta = dt * 2*np.pi/T
+def Time2Deg(dt):
+    theta = dt * 360/T
     return theta
+
+def Rad2Deg(theta):
+    alpha = theta * 180/np.pi
+    return alpha
 
 def I_eff_theta(theta):
     i_eff_theta = i_hat_ideal/np.sqrt(2) * np.sqrt(1/np.pi * (np.pi - theta +1/2 * np.sin(2*theta)))
@@ -35,24 +39,27 @@ def Blindleistung_ideal(S, P):
     return Q
 
 theta = np.linspace(0, np.pi-0.0001, 100) # Winkelvektor
-theta_real = Time2Rad(delta_t) # Zündzeit in Radiant umrechnen
+theta_real = Time2Deg(delta_t) # Zündzeit in Radiant umrechnen
 
 s_ideal = Scheinleistung_ideal(theta)
 p_ideal = Wirkleistung_ideal(theta)
 q_ideal = Blindleistung_ideal(s_ideal, p_ideal)
 
-plt.plot(theta, s_ideal, "--c",label="Scheinleistung")
-plt.plot(theta, p_ideal, "--m",label="Wirkleistung")
-plt.plot(theta, q_ideal, "--b",label="Blindleistung")
+theta_ideal = Rad2Deg(theta)
+
+plt.plot(theta_ideal, s_ideal, "--c",label="S-Theorie")
+plt.plot(theta_ideal, p_ideal, "--m",label="P-Theorie")
+plt.plot(theta_ideal, q_ideal, "--b",label="Q-Theorie")
 #-------------------------------------------------------------
-plt.plot(theta_real, s_real, "-cD",label="Scheinleistung real")
-plt.plot(theta_real, p_real, "-mo",label="Wirkleistung real")
-plt.plot(theta_real, q_real, "-bs",label="Blindleistung real")
-plt.xlim(0, np.pi)
+plt.plot(theta_real, s_real, "-cD",label="S-Messung")
+plt.plot(theta_real, p_real, "-mo",label="P-Messung")
+plt.plot(theta_real, q_real, "-bs",label="Q-Messung")
+plt.xlim(0, 180)
 plt.ylim(0, 65)
-plt.xlabel("Zündwinkel ϑ in rad")
+plt.xlabel("Zündwinkel ϑ in °")
 plt.ylabel("Leistung  [W/VA/var]")
 plt.legend(ncols=2)
 plt.grid()
+plt . savefig("Protokoll_5/Plots/Leistungskurve_Dimmer")
 plt.show()
 plt.close()

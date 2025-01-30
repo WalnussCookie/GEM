@@ -33,8 +33,8 @@ plt.ylabel("Spannung [mV]")
 plt.grid()
 plt.legend()
 plt.title("Kennlinie der Viertelbrücke")
-plt.show()                                       # Show the figure.
 plt.savefig("Protokoll_6/Plots/Viertelbruecke.pdf")
+plt.show()                                       # Show the figure.
 plt.close()                                     # Close the figure.
 
 
@@ -45,6 +45,6 @@ plt.ylabel("Spannung [mV]")
 plt.grid()
 plt.legend()
 plt.title("Kennlinie der Vollbrücke")
-plt.show()                                       # Show the figure.
 plt.savefig("Protokoll_6/Plots/Vollbruecke.pdf")
+plt.show()                                       # Show the figure.
 plt.close()                                     # Close the figure.
